@@ -48,14 +48,14 @@ const CodeEditor = () => {
 
     console.log('defining theme');
 
-    monaco.editor.defineTheme('Dark+ (default dark)', {
+    monaco.editor.defineTheme('dark-plus', {
       // ... use `monaco-vscode-textmate-theme-converter` to convert vs code theme and pass the parsed object here
       ...darkPlus,
     });
 
     // liftOff(monaco).then(() => {
     //   // monaco.editor.setModelLanguage(editor.getModel(), "c++");
-    //   monaco.editor.setTheme("Dark+ (default dark)");
+    //   monaco.editor.setTheme("dark-plus");
     // });
 
   };
