@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# VSCTIM - VSCODE Themes In Monaco
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ - These are my notes on getting vscode themes to work in moncao.
 
-## Available Scripts
+ 1. install monaco
+ 2. install monaco-vscode-textmate-theme-converter
+ 3. create the editor
+ 4. install monaco text-mate
 
-In the project directory, you can run:
+ ## Notes from monaco-vscode-textmate-theme-converter:
 
-### `yarn start`
+ - VSCode themes are directly not compatible with monaco-editor themes. The problem here is that vscode uses tmGrammar tokens for colorization support while monaco uses its own code editor to generate language tokens. (See more about it [here](https://github.com/Microsoft/monaco-editor/issues/675#issuecomment-363151951)).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ - You can use monaco-textmate to make your monac-editor tmGrammar compatible.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+ - Once the tokens are tmGrammar compatible, you need to convert vscode generated theme data to monaco-editor compatible api. This package does exactly that.
 
-### `yarn test`
+ ## Moving on...
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ 5. install monaco-textmate
 
-### `yarn build`
+ ## Notes from monaco-textmate
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ - monaco-textmate relies on onigasm package to provide oniguruma regex engine in browsers. onigasm itself relies on WebAssembly. Therefore to get monaco-textmate working in your browser, it must have WebAssembly support and onigasm loaded and ready-to-go.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ - so continuing on down the rabbit hole....
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+ 6. install [Onigasm](https://www.npmjs.com/package/onigasm#light-it-up)
 
-### `yarn eject`
+ following their instructions:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+ - WASM must be loaded before you use any other feature like OnigRegExp or OnigScanner
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ So...
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+ - Add wasm file to public folder and load in index file... the mount root node
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+... back to monaco-editor-textmate
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ - set up registery in app
