@@ -6,6 +6,7 @@ import { wireTmGrammars } from 'monaco-editor-textmate';
 
 import darkPlusTheme from '../themes/dark_plus.json';
 
+
 const registry = new Registry({
   getGrammarDefinition: async (scopeName) => {
     return {
@@ -33,54 +34,43 @@ const CodeEditor = () => {
     const grammars = new Map();
 
     grammars.set('css', 'source.css');
-    // grammars.set('html', 'text.html.basic');
-    // grammars.set('typescript', 'source.ts');
+    grammars.set('html', 'text.html.basic');
+    grammars.set('typescript', 'source.ts');
 
     await wireTmGrammars(monaco, registry, grammars);
 
 
   };
 
-  const editorWillMount = (monaco) => {
-    // monaco.languages.register({ id: "c++" });
-    monaco.editor.defineTheme('vs-code-theme-converted', {
+
+  const onEditorMount = (editor, monaco) => {
+    editorRef.current = editor;
+
+    console.log('defining theme');
+
+    monaco.editor.defineTheme('Dark+ (default dark)', {
       // ... use `monaco-vscode-textmate-theme-converter` to convert vs code theme and pass the parsed object here
       ...darkPlus,
     });
-  };
 
-
-  // there is no 'onChange' function we can provide to MonacoEditor wrapper. We need to use editorDidMount
-  // then we can get the first parameter which is the current value of the editor
-  // and the second is a reference to the editor itself.
-  // we can use the editor reference to call onDidChangeModelContent to call our onChange.
-  const onEditorDidMount = (getEditorValue, monacoEditor) => {
-    editorRef.current = monacoEditor;
-
-    monacoEditor.onDidChangeModelContent(() => {
-      setValue(getEditorValue());
-    });
-
-    console.log('setting theme...');
-
-    // monacoEditor.editor.defineTheme('vs-code-theme-converted', {
-    //   // ... use `monaco-vscode-textmate-theme-converter` to convert vs code theme and pass the parsed object here
-    //   ...darkPlus,
+    // liftOff(monaco).then(() => {
+    //   // monaco.editor.setModelLanguage(editor.getModel(), "c++");
+    //   monaco.editor.setTheme("Dark+ (default dark)");
     // });
 
-    liftOff(monacoEditor).then(() => {
-      // monaco.editor.setModelLanguage(editor.getModel(), "c++");
-      monacoEditor.editor.setTheme("vs-code-theme-converted");
-    });
+  };
 
+  const onEditorChange = (value, event) => {
+    console.log('on change called');
+    setValue(value);
   };
 
   return (
     <div id="monaco-container" style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '50%', border: '1px solid red' }}>
       <Editor
         value={value}
-        editorWillMount={editorWillMount}
-        editorDidMount={onEditorDidMount}
+        onMount={onEditorMount}
+        onChange={onEditorChange}
         language="javascript"
         height="100%"
       />
