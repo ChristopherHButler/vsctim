@@ -1,4 +1,4 @@
-# VSCTIM - VSCODE Themes In Monaco
+# VSCTIM - Visual Studio Code (vscode) Themes In Monaco Editor
 
 These are my notes on getting vscode themes to work in moncao.
 

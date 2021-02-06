@@ -4,3 +4,8 @@
   flex-direction: column;
   height: 50vh;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
